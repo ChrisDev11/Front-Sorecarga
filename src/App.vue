@@ -3,7 +3,7 @@
   <Navbar/>
 
   <router-view/>
-
+  
   <Footer/>
 
 </template>
@@ -16,7 +16,8 @@ export default {
   components: {
     Navbar,
     Footer
-  }
+  },
+  
 }
 </script>
 <style>

@@ -1,98 +1,87 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import Cookies from "js-cookie";
 
-//Lazy loaded routes
-const Dashboard = () => import("../components/Dashboard.vue")
-const NotFound = () => import("../components/404.vue")
-
+// Importe os componentes
+import HomeView from "../views/HomeView.vue";
+const Dashboard = () => import("../views/PainelAdm/Dashboard.vue");
+const NotFound = () => import("../components/404.vue");
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: "/",
+    name: "home",
+    component: HomeView,
   },
   {
-    path: '/CadastroProduto',
-    name: 'CadastroProduto',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/CadastroProduto.vue')
+    path: "/CadastroProduto",
+    name: "CadastroProduto",
+    component: () => import("../views/PainelAdm/CadastroProduto.vue"),
   },
   {
-    path: '/CadastroCategoria',
-    name: 'CadastroCategoria',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/CadastroCategoria.vue')
+    path: "/CadastroCategoria",
+    name: "CadastroCategoria",
+    component: () => import("../views/PainelAdm/CadastroCategoria.vue"),
+    meta: { requiresAuth: true },
   },
   {
-    path: '/Produtos',
-    name: 'Produtos',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Produto.vue')
+    path: "/Produtos",
+    name: "Produtos",
+    component: () => import("../views/Produto.vue"),
   },
   {
-    path: '/Login',
-    name: 'Login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../components/Login.vue')
+    path: "/Login",
+    name: "Login",
+    component: () => import("../components/Login.vue"),
   },
   {
-    path: '/Register',
-    name: 'Register',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../components/Register.vue')
+    path: "/Register",
+    name: "Register",
+    component: () => import("../components/Register.vue"),
   },
   {
-    path: '/404',
-    name: '404',
-    component: NotFound
+    path: "/CadastroMarca",
+    name: "CadastroMarca",
+    component: () => import("../views/PainelAdm/CadastroMarca.vue"),
   },
   {
-    path: '/Dashboard',
-    name: 'Dashboard',
+    path: "/404",
+    name: "404",
+    component: NotFound,
+  },
+  {
+    path: "/Dashboard",
+    name: "Dashboard",
     component: Dashboard,
+    meta: { requiresAuth: true }, // Indica que essa rota requer autenticação
   },
   {
-    path: '/TermsPolitic',
-    name: 'TermsPolitic',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/TermsPolitic.vue')
-  }
-  
-]
+    path: "/TermsPolitic",
+    name: "TermsPolitic",
+    component: () => import("../views/TermsPolitic.vue"),
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
-// router.beforeEach((to, from, next) =>{
-//   const publicPages = ['/login', '/register'];
-//   const authRequired = !publicPages.includes(to.path);
-//   const loggedIn = localStorage.getItem('token');
 
-//   if (authRequired && !loggedIn) {
-//     next('/login');
-//     } else {
-//       next();
-//     }
-//     if (authRequired){
-//       next('/login');
-//     } else {
-//       next();
-//     }
-//   });
+// Defina o guarda de navegação global
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    const authToken = Cookies.get("authToken");
 
+    if (!authToken) {
+      // Se não houver token de autenticação, redirecione o usuário para a página de login
+      next("/login");
+    } else {
+      // O usuário possui um token de autenticação, permita o acesso à rota
+      next();
+    }
+  } else {
+    // Se a rota não requer autenticação, permita o acesso à rota
+    next();
+  }
+});
 
 export default router;

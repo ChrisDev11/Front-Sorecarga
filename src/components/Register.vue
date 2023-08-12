@@ -1,129 +1,122 @@
 <template>
-    <div class="container">
-  <div class="card">
-    <div class="card-body">
-      <h1>Sign Up</h1>
-      <p>Preencha o formulário para criar sua conta.</p>
-      <hr>
+  <div class="register-form">
+    <form @submit.prevent="submit">
+      <h1 class="h3 mb-3 fw-normal">Register</h1>
 
-      <div class="form-group">
-        <label for="username"><b>Username</b></label>
-        <input v-model="user.username" ref="username" type="text" class="form-control" placeholder="Username" name="username"> 
+      <div class="mb-3">
+        <label for="name" class="form-label">Name:</label>
+        <input v-model="user.Name" type="text" class="form-control" id="name" ref="Name" required>
       </div>
 
-      <div class="form-group">
-        <label for="email"><b>Email</b></label>
-        <input v-model="user.email" ref="email" type="text" class="form-control" placeholder="Digite o Email" name="email"> 
+      <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input v-model="user.Email" type="email" class="form-control" id="email" ref="Email" required>
       </div>
 
-      <div class="form-group">
-        <label for="psw"><b>Senha</b></label>
-        <input v-model="user.password" ref="password" type="password" class="form-control" placeholder="Digite a Senha" name="psw"> 
+      <div class="mb-3">
+        <label for="password" class="form-label">Password:</label>
+        <input v-model="user.Password" type="password" class="form-control" id="password" ref="Password" required>
       </div>
 
-      <!-- <div class="form-group">
-        <label for="psw-repeat"><b>Repita a senha</b></label>
-        <input v-model="user.repeatPassword" ref="password" type="password" class="form-control" placeholder="Username" name="username"> 
+      <div class="mb-3">
+        <label for="confirm-password" class="form-label">Confirm Password:</label>
+        <input v-model="user.ConfirmPassword" type="password" class="form-control" id="confirm-password" ref="psw" required>
       </div>
 
-      <div class="form-check">
-        <input type="checkbox" checked="checked" name="remember" class="form-check-input"> 
-        <label class="form-check-label">Lembre-me</label>
-      </div> -->
-
-      <p>Ao criar a conta, você aceita os <router-link to="/TermsPolitic" style="color:dodgerblue">Termos & Privacidade</router-link>.</p>
-
-      <div class="clearfix">
-        <button type="button" class="btn btn-secondary" v-on:click="back">Cancelar</button>
-        <button type="submit" class="btn btn-primary" v-on:click="signup">Criar</button>
-      </div>
-    </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+    </form>
   </div>
-</div>
-
 </template>
 
 <script>
-import axios from "axios"
-import Swal from 'sweetalert2'
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useRouter } from "vue-router";
 
+export default {
+  name: "Register",
+  data() {
+    return {
+      user: {
+        Name: '',
+        Email: '',
+        Password: '',
+        ConfirmPassword: '',
+      },
+    };
+  },
+  methods: {
+    async submit() {
+      if (!this.checkValidation()) {
+        return;
+      }
 
-export default ({
-    data(){
-        return {
-            user:{
-                userId: 0,
-                username:"",
-                email:"",
-                password:"",
-                // repeatPassword:""
-            },
-        }
+      try {
+        await axios.post('https://localhost:3000/Users/Register', this.user, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        // Assuming router is globally available (e.g., imported from Vue Router)
+        this.$router.push('/login');
+      } catch (error) {
+        console.error('Erro ao registrar:', error);
+      }
     },
-    methods:{
-        back(){
-            this.$router.push({ name: 'Login'});
+    checkValidation() {
+      if (!this.user.Name) {
+        this.$refs.Name.focus();
+        Swal.fire("Give username !");
+        return false;
+      }
+      if (!this.user.Email) {
+        this.$refs.Email.focus();
+        Swal.fire("Give Email !");
+        return false;
+      }
+      
+      if (!this.user.Password) {
+        this.$refs.Password.focus();
+        Swal.fire("Give Password !");
+        return false;
+      }
+      if (this.user.Password !== this.user.ConfirmPassword) {
+        this.$refs.psw.focus();
+        Swal.fire("Password and repeat password mismatched !");
+        return false;
+      }
 
-        },
-        signup(){
-            if(this.checkValidation()){
-                axios.post(this.hostname + "/api/User", this.user)
-                .then(response =>{
-                    if (response.data.user > 0){
-                        Swal.fire("Successfully resgistered")
-                        .then(() => {
-                            this.back();
-                        });
-                    } else{
-                        Swal.fire("Erro : Something went wrong");
-                    }
-                })
-                .catch(error => {
-                    if (error.response){
-                        Swal.fire(error.response.data);
-                    }
-                });
-            }
-        },
+      return true;
+    },
+  },
+  setup() {
+    const router = useRouter();
 
-
-        checkValidation(){
-            if(!this.user.username){
-                this.$refs.username.focus();
-                Swal.fire("Give username !");
-                return;
-            }
-            if(!this.user.email){
-                this.$refs.email.focus();
-                Swal.fire("Give Email !");
-                return;
-            }
-            // if(!(/\w+([-+.']\w+)*@\w+([-.]\w+)*\.w+([-.]\w+)*/).test(this.user.email)){
-            //     this.$refs.email.focus();
-            //     Swal.fire("Invalid email !");
-            //     return;
-            // }
-            if(!this.user.password){
-                this.$refs.password.focus();
-                Swal.fire("Give Password !");
-                return;
-            }
-            // if(this.user.password != this.user.repeatPassword){
-            //     this.$refs.psw.focus();
-            //     Swal.fire("Passwor and repeat password mismatched !");
-            //     return;
-            // }
-            return true;
-        },
-    }
-
-
-})
+    return {
+      router
+    };
+  }
+};
 </script>
 
 <style>
-.container{
-    width: 40%;
-    padding: 16px;
+.register-form {
+  max-width: 40%;
+  padding: 16px;
+  margin: 0 auto;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-control {
+  padding: 10px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
 }
 </style>

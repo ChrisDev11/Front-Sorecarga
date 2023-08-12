@@ -1,94 +1,119 @@
 <template>
-    <div class="col-md-12">
-  <div class="container">
-    <h3 class="e-shop-front">Página de Login</h3>
-    <div class="card">
-      <div class="card-body">
-        <div class="form-group">
-          <label for="username">Usuário</label>
-          <input v-model="user.username" ref="username" type="text" class="form-control" placeholder="Usuário" name="username">
-        </div>
-        <div class="form-group">
-          <label for="pwd">Senha</label>
-          <input v-model="user.password" ref="psw" type="password" class="form-control" placeholder="Senha" name="pwd">
-        </div>
-        <div class="form-group form-check">
-          <input class="form-check-input" type="checkbox" id="remember" name="remember">
-          <label class="form-check-label" for="remember">Lembrar-me</label>
-        </div>
-        <div class="clearfix">
-          <button type="button" class="btn btn-primary" v-on:click="login">Entrar</button>
-          <button type="button" class="btn btn-secondary" v-on:click="signup">Registrar-se</button>
-        </div>
-      </div>               
-    </div>
+  <div class="login-form">
+    <form @submit.prevent="submit">
+      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input v-model="credentials.email" type="email" class="form-control" id="email" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password:</label>
+        <input v-model="credentials.password" type="password" class="form-control" id="password" required>
+      </div>
+
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+      <button class="w-100 btn btn-lg btn-secondary mt-2" type="button" @click="goToRegister">Register</button>
+    </form>
   </div>
-</div>
-
 </template>
-
+  
 <script>
+
 import axios from 'axios';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { useRouter } from "vue-router";
+import Cookies from 'js-cookie'; 
 
 export default {
-    name: 'Login',
+  name: "Login",
+  data() {
+    return {
+      credentials: {
+        email: '',
+        password: '',
+      },
+    };
+  },
+  methods: {
+    
 
-    data(){
-        return{
-            user:{
-                username:"",
-                password:""
-            }
-        }
+    async submit() {
+      if (!this.checkValidation()) {
+        return;
+      }
+
+      try {
+        const response = await axios.post('https://localhost:3000/Users/Login', this.credentials, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log("Success Logins")
+        // Assuming the API returns a token upon successful login
+        const authToken = response.data;
+
+        // Store the token in a cookie
+        console.log(response.data);
+        Cookies.set('authToken', authToken);
+
+        // Redirect to appropriate route after successful login
+        this.$router.push('/dashboard');
+      } catch (error) {
+        console.error('Erro ao fazer login:', error);
+        Swal.fire("Login failed. Please check your credentials.");
+      }
     },
+    checkValidation() {
+      if (!this.credentials.email) {
+        Swal.fire("Please enter your email.");
+        return false;
+      }
+      
+      if (!this.credentials.password) {
+        Swal.fire("Please enter your password.");
+        return false;
+      }
 
-    methods:{
-        signup(){
-            this.$router.push({name: 'Register'})
-        },
-        login(){
-            if(this.checkValidation()){
-                axios.get(this.hostname + "/api/user/login/"+thisuser.username+"/"+this.user.password)
-                    .then(response =>{
-                        if(response.data.userId > 0){
-                            console.log(response.data.token); // LOG tested user
-                            localStorage.setItem('token', JSON.stringify(response.data.token));
-                            response.data.token ="";
-                            localStorage.setItem('user', JSON.stringify(response.data));
-                            this.$router.push({name:"Dashboard"});
+      return true;
+    },
+    goToRegister() {
+      this.$router.push('/register'); // Adjust this to your registration route
+    },
+  },
+  setup() {
+    const router = useRouter();
 
-                        }
-                    })
-                    
-                    .catch(error =>{
-                        if(error.response){
-                            Swal.fire(error.response.data);
-                        }
-
-                    });
-            }
-        },
-        checkValidation(){
-            if(!this.user.username){
-                this.$refs.username.focus();
-                Swal.fire("Coloque o Usuario");
-                return;
-            }
-            if(!this.user.password){
-                this.$refs.password.focus();
-                Swal.fire("Coloque a Senha");
-                return;
-            }
-            return true;
-        }
-    }
-}
+    return {
+      router
+    };
+  }
+};
 </script>
 
-<style scoped>
-.container{
-    max-width: 360px;
-    }
 
+<style>
+.login-form {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-control {
+  padding: 10px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
 </style>
