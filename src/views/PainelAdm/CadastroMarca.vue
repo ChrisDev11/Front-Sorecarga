@@ -1,4 +1,7 @@
 <template>
+   <div class="d-flex"> <!-- Use a classe "d-flex" para criar um layout flexível -->
+      <SideBarDash class="flex-shrink-0" /> <!-- Adicione a classe "flex-shrink-0" para evitar que a barra lateral cresça -->
+      <div class="flex-grow-1"> <!-- Use a classe "flex-grow-1" para que o conteúdo ocupe o espaço restante -->
   <div class="container mt-3">
     <h3>Cadastro da Marca</h3>
     <form class="row g-3">
@@ -32,9 +35,6 @@
 
       <tbody>
         <tr v-for="Brand in Brands" v-bind:key="Brand.id">
-            <td>
-            {{ Brand.id }}
-          </td>
           <td>
             {{ Brand.name }}
           </td>
@@ -52,13 +52,19 @@
       </tbody>
     </table>
   </div>
+</div>
+</div>
 </template>
 
 <script>
+import SideBarDash from "@/components/SideBarDash.vue";
 import axios from "axios";
 
 export default {
   name: "CadastroMarca",
+  components:{
+    SideBarDash
+  },
   
   data: () => {
     return {
@@ -89,7 +95,7 @@ export default {
     },
     //Auto preencher dados para a edição Brand
     editar(Brand) {
-      document.getElementById("name").value = Brand.name;
+      document.getElementById("name").value = Brand.id;
       this.Brand = Brand;
     },
     //Atualizar dados que ja estao gravados
@@ -119,3 +125,32 @@ export default {
   },
 };
 </script>
+
+<style>
+h3.mb-4 {
+  font-size: 24px;
+}
+
+/* Estilo para os botões */
+.btn {
+  font-size: 14px;
+  padding: 6px 12px;
+}
+
+/* Estilo para a tabela */
+.table {
+  font-size: 14px;
+}
+
+/* Estilo para a barra lateral */
+.flex-shrink-0 {
+  width: 280px; /* Ajuste conforme necessário */
+  background-color: #f8f9fa; /* Cor de fundo da barra lateral */
+}
+
+/* Estilo para o conteúdo principal */
+.flex-grow-1 {
+  padding: 20px;
+  background-color: #ffffff; /* Cor de fundo do conteúdo */
+}
+</style>

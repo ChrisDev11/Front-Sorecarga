@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 
 // Importe os componentes
 import HomeView from "../views/HomeView.vue";
-const Dashboard = () => import("../views/PainelAdm/Dashboard.vue");
+const Dashboard = () => import("../components/Dashboard.vue");
 const NotFound = () => import("../components/404.vue");
 
 const routes = [

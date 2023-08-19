@@ -131,7 +131,7 @@ export default {
     const router = useRouter();
 
     // Verifica se o usuário está logado
-    console.log("teste"+loggedIn.value)
+    // console.log("teste"+loggedIn.value)
 
     
 
@@ -148,17 +148,17 @@ export default {
       if (Cookies.get('authToken')) {
       
       loggedIn.value = true;
-        console.log("Authent")
+      //  console.log("Authent")
       
     } 
 
     }
    const teste = setInterval(toggleMenu, 250)
-   console.log("Session")
+   //console.log("Session")
    watch(loggedIn, (newValue) => {
       if (newValue) {
         clearInterval(teste);
-        console.log("Interval stopped");
+       // console.log("Interval stopped");
       }
     });
     
