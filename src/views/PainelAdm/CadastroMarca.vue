@@ -76,7 +76,8 @@ export default {
     lista() {
       axios.get("https://localhost:3000/Brand").then((res) => {
         this.Brands = res.data;
-        console.log(res);
+        console.log(this.Brands);
+        
       });
     },
     salvar() {
@@ -95,26 +96,28 @@ export default {
     },
     //Auto preencher dados para a edição Brand
     editar(Brand) {
-      document.getElementById("name").value = Brand.id;
+      document.getElementById("name").value = Brand.name;
       this.Brand = Brand;
     },
     //Atualizar dados que ja estao gravados
     alterar() {
       this.Brand.name = document.getElementById("name").value;
-
+      console.log(this.Brand.id)
       axios
         .put(`https://localhost:3000/Brand/${this.Brand.id}`, this.Brand)
         .then(() => {
           this.lista();
+          
           this.Brand = undefined;
           document.getElementById("name").value = "";
         });
     },
     //Metodo EXCLUIR
     excluir(id) {
+      console.log(this.id)
       if (confirm("🚫Deseja realmente excluir a Marca?🚫")) {
+        
         axios.delete(`https://localhost:3000/Brand/${id}`).then(() => {
-            console.log(this.excluir)
           this.lista();
         });
       }

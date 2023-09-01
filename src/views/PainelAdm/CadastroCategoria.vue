@@ -49,7 +49,7 @@
               <td>
                 <button
                   class="btn btn-danger"
-                  v-on:click="excluir(Categorys.Id)"
+                  v-on:click="excluir(Categorys.id)"
                 >
                   Excluir
                 </button>
@@ -125,6 +125,7 @@ export default {
     },
     //Metodo EXCLUIR
     excluir(id) {
+      console.log(this.id)
       if (confirm("🚫Deseja realmente excluir a Categoria?🚫")) {
         
         axios.delete(`https://localhost:3000/Category/${id}`).then(() => {
