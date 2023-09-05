@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Cookies from "js-cookie";
+import Checkout from "../components/CheckOut.vue";
 
 // Importe os componentes
 import HomeView from "../views/HomeView.vue";
@@ -16,6 +17,7 @@ const routes = [
     path: "/CadastroProduto",
     name: "CadastroProduto",
     component: () => import("../views/PainelAdm/CadastroProduto.vue"),
+    meta: { requiresAuth: true }, // Indica que essa rota requer autenticação
   },
   {
     path: "/CadastroCategoria",
@@ -32,16 +34,19 @@ const routes = [
     path: "/Login",
     name: "Login",
     component: () => import("../components/Login.vue"),
+    
   },
   {
     path: "/Register",
     name: "Register",
     component: () => import("../components/Register.vue"),
+    
   },
   {
     path: "/CadastroMarca",
     name: "CadastroMarca",
     component: () => import("../views/PainelAdm/CadastroMarca.vue"),
+    meta: { requiresAuth: true }, // Indica que essa rota requer autenticação
   },
   {
     path: "/404",
@@ -58,6 +63,11 @@ const routes = [
     path: "/TermsPolitic",
     name: "TermsPolitic",
     component: () => import("../views/TermsPolitic.vue"),
+  },
+  {
+    path: "/checkout",
+    name: "checkout",
+    component: Checkout, // Use o componente Checkout.vue para esta rota
   },
 ];
 

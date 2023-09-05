@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <footer class="footer">
     <div class="container align-items">
       <div class="row">
@@ -52,10 +52,12 @@
   }
   </script>
   
+  
   <style>
   *{
     margin: 0;
     padding: 0;
+    
   }
     
   
@@ -73,11 +75,12 @@
    
   }
   .footer{
+    /* position: fixed; */
     background-color: #24262b;
-    position: absolute;
+    /* position: absolute; */
     width: 100%;
     bottom: 0;
-       
+    padding: 10px 0;   
   }
   .col{
     /* width:25%;
@@ -142,5 +145,3 @@
     }
   } */
   </style>
-  
-   -->
