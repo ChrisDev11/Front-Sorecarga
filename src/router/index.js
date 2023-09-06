@@ -28,7 +28,7 @@ const routes = [
   {
     path: "/Produtos",
     name: "Produtos",
-    component: () => import("../views/Produto.vue"),
+    component: () => import("../components/Produto.vue"),
   },
   {
     path: "/Login",

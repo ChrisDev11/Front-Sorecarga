@@ -1,29 +1,29 @@
 <template>
   <div class="register-form">
     <form @submit.prevent="submit">
-      <h1 class="h3 mb-3 fw-normal">Register</h1>
+      <h1 class="h3 mb-3 fw-normal" style="font-family:Verdana, Geneva, Tahoma, sans-serif;">Criar conta</h1>
 
       <div class="mb-3">
-        <label for="name" class="form-label">Name:</label>
+        <label for="name" class="form-label">Nome:</label>
         <input v-model="user.Name" type="text" class="form-control" id="name" ref="Name" required>
       </div>
 
       <div class="mb-3">
-        <label for="email" class="form-label">Email:</label>
+        <label for="email" class="form-label">E-mail:</label>
         <input v-model="user.Email" type="email" class="form-control" id="email" ref="Email" required>
       </div>
 
       <div class="mb-3">
-        <label for="password" class="form-label">Password:</label>
+        <label for="password" class="form-label">Senha:</label>
         <input v-model="user.Password" type="password" class="form-control" id="password" ref="Password" required>
       </div>
 
       <div class="mb-3">
-        <label for="confirm-password" class="form-label">Confirm Password:</label>
+        <label for="confirm-password" class="form-label">Confirme sua senha:</label>
         <input v-model="user.ConfirmPassword" type="password" class="form-control" id="confirm-password" ref="psw" required>
       </div>
 
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Continuar</button>
     </form>
   </div>
 </template>
@@ -105,6 +105,8 @@ export default {
   max-width: 40%;
   padding: 16px;
   margin: 0 auto;
+  margin-top: 90px;
+  margin-bottom: 108px;
 }
 
 .form-label {

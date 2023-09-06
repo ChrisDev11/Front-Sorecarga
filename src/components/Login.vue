@@ -1,20 +1,21 @@
 <template>
   <div class="login-form">
     <form @submit.prevent="submit">
-      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+      <h1 class="h3 mb-3 fw-normal " style="font-family:Verdana, Geneva, Tahoma, sans-serif;">Fazer login</h1>
 
       <div class="mb-3">
-        <label for="email" class="form-label">Email:</label>
+        <label for="email" class="form-label">E-mail:</label>
         <input v-model="credentials.email" type="email" class="form-control" id="email" required>
       </div>
 
       <div class="mb-3">
-        <label for="password" class="form-label">Password:</label>
+        <label for="password" class="form-label">Senha:</label>
         <input v-model="credentials.password" type="password" class="form-control" id="password" required>
       </div>
 
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-      <button class="w-100 btn btn-lg btn-secondary mt-2" type="button" @click="goToRegister">Register</button>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
+      <button class="w-100 btn btn-lg btn-secondary mt-2" type="button" @click="goToRegister">Cadastre-se</button>
+      
     </form>
   </div>
 </template>
@@ -98,6 +99,8 @@ export default {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
+  margin-top: 135px;
+  margin-bottom: 180px;
 }
 
 .form-label {

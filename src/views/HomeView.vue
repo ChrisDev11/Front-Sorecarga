@@ -16,6 +16,15 @@
     </div>
 
     <div class="container">
+  <h2>Nossas Marcas</h2>
+  <div class="brand-list">
+    <div v-for="brand in brands" :key="brand.id" class="brand-card">
+      <h3>{{ brand.name }}</h3>
+    </div>
+  </div>
+</div>
+
+    <div class="container">
       <h2>Nossos Produtos</h2>
       <div class="product-list">
         <!-- Loop para exibir a lista de produtos -->
@@ -44,6 +53,7 @@
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 
@@ -79,12 +89,14 @@ export default {
 
   mounted() {
     this.fetchProducts(); // Chama a função para buscar os produtos quando a página é carregada
-
+    this.fetchBrands();
     // Recupere o carrinho do cookie quando a página é carregada
     const savedCart = Cookies.get('cart'); // Corrija a chamada para Cookies.get
     if (savedCart) {
       this.cart = Array.isArray(savedCart) ? savedCart : JSON.parse(savedCart); // Converta o JSON do cookie de volta para um objeto
     }
+    
+    
   },
 
   methods: {
@@ -114,6 +126,16 @@ export default {
           console.log(error);
         });
     },
+    fetchBrands() {
+    axios
+      .get("https://localhost:3000/Brand") // Rota para buscar marcas
+      .then((response) => {
+        this.brands = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
   },
 };
 </script>

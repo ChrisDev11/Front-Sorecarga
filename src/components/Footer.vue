@@ -3,40 +3,41 @@
     <div class="container align-items">
       <div class="row">
         <div class="col">
-          <h4>company</h4>
+          <h4>Empresa</h4>
           <ul>
-            <li><a href="#">about us</a></li>
-            <li><a href="#">our services</a></li>
-            <li><a href="#">privacy policy</a></li>
-            <li><a href="#">affiliate program</a></li>
+            <li><a href="#">Sobre nós</a></li>
+            <li><a href="#">Nossos serviços</a></li>
+            <li><a href="#">Política de privacidade</a></li>
+            <li><a href="#">LGPD</a></li>
           </ul>
         </div>
         <div class="col">
-          <h4>get help</h4>
+          <h4>Ajuda</h4>
           <ul>
             <li><a href="#">FAQ</a></li>
-            <li><a href="#">shipping</a></li>
-            <li><a href="#">returns</a></li>
-            <li><a href="#">order status</a></li>
-            <li><a href="#">payment options</a></li>
+            <li><a href="#">Devoluções</a></li>
+            <li><a href="#">Status do pedido</a></li>
+            <li><a href="#">Opções de pagamento</a></li>
           </ul>
         </div>
         <div class="col">
-          <h4>online shop</h4>
+          <h4>Departamentos</h4>
           <ul>
-            <li><a href="#">watch</a></li>
-            <li><a href="#">bag</a></li>
-            <li><a href="#">shoes</a></li>
-            <li><a href="#">dress</a></li>
+            <li><a href="#">Prensas</a></li>
+            <li><a href="#">Marcas</a></li>
+            <li><a href="#">Acessórios</a></li>
+            <li><a href="#">Insumos</a></li>
           </ul>
         </div>
         <div class="col">
-          <h4>follow us</h4>
+          <h4>Mídia sociais</h4>
           <div class="social-links">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <div class="linkedin-container">
+            <a href="https://www.linkedin.com/in/bryan-jauri-7004b0235/"><img src="img/bryan.jpeg" class="linkedin-image"></a>
+            <a href="https://www.linkedin.com/in/christian-pedro-8904b2235/"><img src="img/chris.jpeg" class="linkedin-image"></a>
+            <a href="https://www.linkedin.com/in/dev-higor-pereira/"><img src="img/higor.jpeg" class="linkedin-image"></a>
+            <i class="fab fa-linkedin-in linkedin-icon"></i>
+          </div>
           </div>
         </div>
       </div>
@@ -122,6 +123,17 @@
     color: #ffffff;
     padding-left: 8px;
   }
+  .linkedin-container{
+    position: relative;
+    display: inline-block;
+    
+  }
+  .linkedin-image{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
   .col .social-links a{
     display: inline-block;
     height: 40px;
@@ -138,6 +150,7 @@
     color:#24262b;
     background-color: #ffffff;
   }
+ 
   /* @media(max-width: 767px){
     .col{
       width:50%;
@@ -145,3 +158,5 @@
     }
   } */
   </style>
+  
+  

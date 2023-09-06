@@ -57,34 +57,51 @@
         <div class="form-group">
           <label for="formaPagamento">Forma de Pagamento:</label>
           <select id="formaPagamento" v-model="cliente.formaPagamento">
-            <option value="cartao" disabled>Cartão de Crédito</option>
-            <option value="boleto" disabled>Boleto Bancário</option>
             <option value="pix">PIX</option>
           </select>
         </div>
       </form>
       <button @click="prevStep">Voltar</button>
-      <button @click="nextStep">Finalizar</button>
+      <button @click="generatePayloadAndProceedToNextStep">Gerar Pagamento</button>
     </div>
     <div v-else-if="step === 3">
-      <!-- Etapa 3: Dados de Pagamento (a ser implementado futuramente) -->
+      <!-- Etapa 3: Dados de Pagamento -->
       <h3>Dados de Pagamento</h3>
-      <!-- Dados de pagamento aqui -->
-      <button @click="prevStep">Voltar</button>
+      <!-- Exibir a payload gerada aqui -->
+      <div v-if="payloadGenerated">
+        <h4>Payload Pix Gerada:</h4>
+        <tr></tr>
+        <h3>Prazo para confirmação de pagamento de no Máximo 24 horas</h3>
+        <pre>{{ payloadGenerated }}</pre>
+        <div>
+          <h4>QR Code Pix:</h4>
+          <QRCode :value="payloadGenerated" />
+          
+
+        </div>
+      </div>
+      <button @click="finalizeOrder">Finalizar</button>
     </div>
   </div>
 </template>
 
 <script>
+import PayloadGenerator from "./Pix/PayloadGenerator";
+import QRCode from "./Qrcode/QRCode.vue";
 import Cookies from "js-cookie";
 
 export default {
   nome: "CheckOut",
+  components: {
+    QRCode,
+  },
+ 
 
   data() {
     return {
       step: 1,
       cart: [],
+      payloadGenerated: null,
 
       cliente: {
         nome: "",
@@ -103,6 +120,19 @@ export default {
     }
   },
   methods: {
+    generatePayloadAndProceedToNextStep() {
+      // Chame o gerador de payload com os dados do cliente
+      const payloadGenerator = new PayloadGenerator();
+      payloadGenerator.setAmount(this.calculateTotal()); // Defina o valor de amount corretamente
+      // Configure os dados do cliente aqui
+      const payload = payloadGenerator.generatePayload(); // Use o método do gerador
+
+      // Exiba a payload gerada
+      this.payloadGenerated = payload;
+
+      // Avance para a etapa 3 (Dados de Pagamento)
+      this.step = 3;
+    },
     // Decrementa a quantidade de um item no carrinho
     decrementQuantity(item) {
       if (item.quantity > 1) {
@@ -142,8 +172,12 @@ export default {
     nextStep() {
       this.step++;
     },
-    prevStep() {
-      this.step--;
+    finalizeOrder() {
+      // Limpar os dados do carrinho (cart) dos cookies
+      Cookies.remove('cart');
+
+      // Redirecionar para a página "/home"
+      this.$router.push('/');
     },
   },
 };
