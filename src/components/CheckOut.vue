@@ -143,6 +143,9 @@ export default {
     // Se não houver dados no cookie "cart", crie um cookie "cartbuy" vazio
     Cookies.set("cartbuy", "[]");
   }
+
+
+  
     const jwtCookie = this.getCookie('authToken');
 
 // Decode JWT token
@@ -194,7 +197,6 @@ function getCookie(cookieName) {
   return null;
 }
 
-// Obtenha os cookies cartBuyData
 const cartBuyDataEncoded = getCookie('cartbuy');
 
 // Certifique-se de que os cookies cartBuyData estejam presentes
@@ -206,26 +208,38 @@ if (cartBuyDataEncoded) {
     // Certifique-se de que a estrutura dos dados está correta
     if (Array.isArray(cartData)) {
       // Combine todos os dados do carrinho em um único objeto
-      const combinedCartData = [{}];
+      const combinedCartData = {};
 
       cartData.forEach(item => {
         Object.assign(combinedCartData, item);
       });
 
-      // Reorganize os campos como desejado
-      const reorderedCartData = [{
+      // Reorganize os campos como desejado em um objeto individual
+      const reorderedCartData = {
         productId: combinedCartData.productId,
         purchaseId: combinedCartData.purchaseId,
         amount: combinedCartData.amount,
         priceUn: combinedCartData.priceUn,
-        
-        
-      }];
+      };
 
-      console.log(reorderedCartData);
+      // Transforme cada item do carrinho em um objeto individual
+      const individualItems = cartData.map(item => ({
+        productId: item.productId,
+        purchaseId: combinedCartData.purchaseId,
+        amount: item.amount,
+        priceUn: item.priceUn,
+      }));
+
+      console.log('Objeto combinado:', reorderedCartData);
+      console.log('Itens individuais:', individualItems);
+
+      
+
+
+      
 
       // Faça a solicitação POST com os dados combinados do carrinho
-      axios.post('https://localhost:3000/Cart', reorderedCartData, {
+      axios.post('https://localhost:3000/Cart', individualItems, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -389,22 +403,29 @@ if (cartBuyDataEncoded) {
     // Avance para a próxima etapa após o sucesso
     this.nextStep();
 
-    // Agora, adicione o purchaseId aos cookies 'cartbuy'
-    const existingData = Cookies.get("cartbuy");
+// Agora, adicione o purchaseId a todos os objetos nas cookies 'cartbuy'
+const existingData = Cookies.get("cartbuy");
 
-    // Verifique se já há dados nos cookies 'cartbuy'
-    let cartBuyData = existingData ? JSON.parse(existingData) : [];
+// Verifique se já há dados nos cookies 'cartbuy'
+let cartBuyData = existingData ? JSON.parse(existingData) : [];
 
-    // Adicione o novo elemento 'purchaseId' ao array
-    cartBuyData.push({ purchaseId });
+// Adicione o purchaseId a todos os objetos na matriz
+cartBuyData.forEach(item => {
+  item.purchaseId = purchaseId;
+});
 
-    // Salve os dados atualizados nos cookies 'cartbuy'
-    Cookies.set("cartbuy", JSON.stringify(cartBuyData));
-    console.log('cartBuyData:', cartBuyData);
+// Salve os dados atualizados nos cookies 'cartbuy'
+Cookies.set("cartbuy", JSON.stringify(cartBuyData));
+console.log('cartBuyData:', cartBuyData);
+
+
+
   } catch (error) {
     console.error("Erro ao registrar:", error);
     // Trate o erro adequadamente aqui, você pode exibir uma mensagem de erro para o usuário ou fazer outras ações necessárias.
   }
+
+  
 },
 
 
