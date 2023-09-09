@@ -1,6 +1,7 @@
 <template>  
 
   <Navbar/>
+  <Navbar2/>
   <notificationContainer />
   <router-view/>
   
@@ -10,11 +11,13 @@
 
 <script>
 import Navbar from "./components/Navbar.vue"
+import Navbar2 from "./components/Navbar2.vue"
 import Footer from "./components/Footer.vue"
 import notificationContainer from "@/components/Notification/NotificationContainer.vue"
 export default {
   components: {
     Navbar,
+    Navbar2,
     Footer,
     notificationContainer
     

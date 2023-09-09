@@ -379,7 +379,7 @@ if (cartBuyDataEncoded) {
     // Construa o objeto de compra com os dados fornecidos
     const purchaseData = {
       buyDate: "", // Use a data atual
-      payment: "", // Substitua pelo método de pagamento desejado
+      payment: "Pix", // Substitua pelo método de pagamento desejado
       status: "Iniciado",
       userId: userId, // Use o ID do usuário obtido do JWT
       cartItems: [],

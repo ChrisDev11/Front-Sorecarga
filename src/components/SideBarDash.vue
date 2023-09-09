@@ -1,9 +1,6 @@
 <template>
-  <div class="sidebar" >
-    <a
-      href="/"
-      class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom"
-    >
+  <div class="sidebar">
+    <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24">
         <use xlink:href="#bootstrap"></use>
       </svg>
@@ -28,66 +25,36 @@
           </ul>
         </div>
       </li> -->
-      <li class="mb-1">
-        <button
-          class="btn btn-toggle align-items-center rounded collapsed"
-          data-bs-toggle="collapse"
-          data-bs-target="#dashboard-collapse"
-          aria-expanded="false"
-        >
-          Cadastros
-        </button>
-        <div class="collapse" id="dashboard-collapse" style="">
+      <div class="mb-1">
+       
+        
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             <li>
-              <router-link class="dropdown-item" to="/CadastroCategoria"
-                >Cadastro de Categorias</router-link
-              >
+              <router-link class="dropdown-item" to="/CadastroCategoria">Cadastro de Categorias</router-link>
             </li>
             <li>
-              <router-link class="dropdown-item" to="/CadastroMarca"
-                >Cadastro de Marca</router-link
-              >
+              <router-link class="dropdown-item" to="/CadastroMarca">Cadastro de Marca</router-link>
             </li>
             <li>
-              <router-link class="dropdown-item" to="/CadastroProduto"
-                >Cadastro de Produtos</router-link
-              >
+              <router-link class="dropdown-item" to="/CadastroProduto">Cadastro de Produtos</router-link>
             </li>
             <li>
-              <router-link class="dropdown-item disabled" to="#"
-                >Cadastro de Ficha Técnica</router-link
-              >
+              <router-link class="dropdown-item disabled" to="#">Cadastro de Ficha Técnica</router-link>
             </li>
           </ul>
-        </div>
-      </li>
-      <li class="mb-1">
-        <button
-          class="btn btn-toggle align-items-center rounded collapsed"
-          data-bs-toggle="collapse"
-          data-bs-target="#orders-collapse"
-          aria-expanded="false"
-        >
-          Orders
-        </button>
-        <div class="collapse" id="orders-collapse" style="">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark rounded">New</a></li>
-            <li><a href="#" class="link-dark rounded">Processed</a></li>
-            <li><a href="#" class="link-dark rounded">Shipped</a></li>
-            <li><a href="#" class="link-dark rounded">Returned</a></li>
-          </ul>
-        </div>
-      </li>
+        
+      </div>
+      <div class="mb-1">
+        
+            <li>
+              <router-link to="/neworders" class="link-dark rounded">Novas Vendas</router-link>
+            </li>
+    
+      </div>
       <li class="border-top my-3"></li>
       <li class="mb-1">
-        <button
-          class="btn btn-toggle align-items-center rounded collapsed"
-          data-bs-toggle="collapse"
-          data-bs-target="#account-collapse"
-          aria-expanded="false"
-        >
+        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+          data-bs-target="#account-collapse" aria-expanded="false">
           Account
         </button>
         <div class="collapse" id="account-collapse" style="">
@@ -178,7 +145,8 @@ export default {
 }
 
 .collapse.show {
-  max-height: 500px; /* Defina uma altura adequada para o conteúdo expandido */
+  max-height: 500px;
+  /* Defina uma altura adequada para o conteúdo expandido */
 }
 
 @media (max-width: 767px) {
@@ -186,9 +154,9 @@ export default {
     width: 100%;
     position: fixed;
     top: 0;
-    left: -100%; /* Inicialmente oculta a barra lateral */
+    left: -100%;
+    /* Inicialmente oculta a barra lateral */
     transition: left 0.3s ease-in-out;
-   
   }
 
   /* Exibir a barra lateral quando o menu for ativado */
@@ -198,7 +166,8 @@ export default {
 
   /* Estilos para o restante do conteúdo quando a barra lateral está ativa */
   .content {
-    margin-left: 200px; /* Espaço para a barra lateral */
+    margin-left: 200px;
+    /* Espaço para a barra lateral */
     transition: margin-left 0.3s ease-in-out;
   }
 

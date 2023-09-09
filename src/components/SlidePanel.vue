@@ -258,6 +258,8 @@ export default {
 
   .checkout-button {
     margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
     background-color: #007bff;
     color: #fff;
     border: none;

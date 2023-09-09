@@ -49,6 +49,12 @@ const routes = [
     meta: { requiresAuth: true }, // Indica que essa rota requer autenticação
   },
   {
+    path: "/neworders",
+    name: "NewOrders",
+    component: () => import("../views/PainelAdm/Neworder.vue"),
+    meta: { requiresAuth: true }, // Indica que essa rota requer autenticação
+  },
+  {
     path: "/404",
     name: "404",
     component: NotFound,
