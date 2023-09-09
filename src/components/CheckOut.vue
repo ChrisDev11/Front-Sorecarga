@@ -130,10 +130,12 @@ export default {
     const cartBuyData = cartData.map(item => {
       return {
         productId: item.id,
-        price: item.price,
+        priceUn: item.price,
         amount: item.quantity,
-      };
+       };
     });
+
+    
 
     // Salva os dados do carrinho de compra no cookie "cartbuy"
     Cookies.set("cartbuy", JSON.stringify(cartBuyData));
@@ -168,6 +170,7 @@ export default {
         console.error("Erro ao decodificar o JWT:", error);
       }
     }
+    
   },
   methods: {
     getCookie(name) {
@@ -179,7 +182,72 @@ export default {
 
 
     generatePayloadAndProceedToNextStep() {
-  // Chame o gerador de payload com os dados do cliente
+// Função para obter um cookie pelo nome
+function getCookie(cookieName) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [name, value] = cookie.trim().split('=');
+    if (name === cookieName) {
+      return decodeURIComponent(value);
+    }
+  }
+  return null;
+}
+
+// Obtenha os cookies cartBuyData
+const cartBuyDataEncoded = getCookie('cartbuy');
+
+// Certifique-se de que os cookies cartBuyData estejam presentes
+if (cartBuyDataEncoded) {
+  try {
+    // Decodifique a string URL-encoded e, em seguida, analise-a como JSON
+    const cartData = JSON.parse(decodeURIComponent(cartBuyDataEncoded));
+
+    // Certifique-se de que a estrutura dos dados está correta
+    if (Array.isArray(cartData)) {
+      // Combine todos os dados do carrinho em um único objeto
+      const combinedCartData = [{}];
+
+      cartData.forEach(item => {
+        Object.assign(combinedCartData, item);
+      });
+
+      // Reorganize os campos como desejado
+      const reorderedCartData = [{
+        productId: combinedCartData.productId,
+        purchaseId: combinedCartData.purchaseId,
+        amount: combinedCartData.amount,
+        priceUn: combinedCartData.priceUn,
+        
+        
+      }];
+
+      console.log(reorderedCartData);
+
+      // Faça a solicitação POST com os dados combinados do carrinho
+      axios.post('https://localhost:3000/Cart', reorderedCartData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
+        // A solicitação foi bem-sucedida, você pode lidar com a resposta (opcional)
+        console.log('Dados do carrinho enviados com sucesso:', response.data);
+
+        // Avance para a próxima etapa, se necessário
+        this.step = 3;
+      })
+      .catch(error => {
+        console.error('Erro ao enviar dados do carrinho:', error);
+        // Lidar com erros de forma apropriada (exibindo uma mensagem de erro, revertendo alterações, etc.)
+      });
+
+
+
+
+
+
+        // Chame o gerador de payload com os dados do cliente
   const payloadGenerator = new PayloadGenerator();
   payloadGenerator.setAmount(this.calculateTotal()); // Defina o valor de amount corretamente
   // Configure os dados do cliente aqui
@@ -201,8 +269,20 @@ export default {
       console.error('Erro ao salvar os dados do cliente:', error);
       // Lidar com erros de forma apropriada (exibindo uma mensagem de erro, revertendo alterações, etc.)
     });
+      } else {
+        console.error('A estrutura dos dados do carrinho é inválida.');
+      }
+    } catch (error) {
+      console.error('Erro ao analisar os dados do carrinho:', error);
+    }
+  } else {
+    console.error('Cookies cartBuyData não encontrados ou vazios.');
+  }
 
 },
+
+
+
     // Decrementa a quantidade de um item no carrinho
     decrementQuantity(item) {
       if (item.quantity > 1) {
