@@ -1,30 +1,36 @@
 <template>
   <!-- Navbar da logo, barra de pesquisa e Logins -->
-  <nav class="navbar navbar-expand-lg bg-dark" aria-label="Thirteenth navbar example">
+  <nav
+    class="navbar navbar-expand-lg bg-dark"
+    aria-label="Thirteenth navbar example"
+  >
     <div class="container-fluid">
-
-
-      <div class="navbar-collapse  d-lg-flex d-flex" id="navbarsExample11">
+      <div class="navbar-collapse d-lg-flex d-flex" id="navbarsExample11">
         <!-- Logo -->
         <router-link class="navbar-brand justify-content-center" to="/">
-          <img src="/img/logo.png" alt="Home" id="navbar-logo">
+          <img src="/img/logo.png" alt="Home" id="navbar-logo" />
         </router-link>
 
         <!-- Barra de Pesquisa / Falta Por Função -->
-        <div class="container-fluid  justify-content-center col-lg-5 me-5">
+        <div class="container-fluid justify-content-center col-lg-5 me-5">
           <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="O que você procura?" aria-label="Search">
-
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="O que você procura?"
+              aria-label="Search"
+            />
           </form>
         </div>
 
 
+        <!-- <template v-if="!isAdmin.valueOf()"> -->
         <!-- Botão de Configurações (Mostrar apenas para o administrador) -->
-        <div v-if="isAdmin" class="col-lg-1">
-          <button class="btn btn-danger">
+          <!-- <button class="btn btn-danger">
             <i class="fa-solid fa-gear"></i>
           </button>
-        </div>
+      </template> -->
+
 
 
 
@@ -33,57 +39,78 @@
           <!-- Verifica se o usuário está logado -->
           <template v-if="!loggedIn.valueOf()">
             <!-- Link para a página de Login -->
-            <router-link to="/Login" class="nav-link" style="font-weight: bold; color: white;">Entrar /
-              Cadastrar</router-link>
+            <router-link
+              to="/Login"
+              class="nav-link"
+              style="font-weight: bold; color: white"
+              >Entrar / Cadastrar</router-link
+            >
           </template>
           <template v-else-if="loggedIn.valueOf()">
             <!-- Botão para efetuar o logout -->
-            <a href="/Login" class="link-danger" @click="logout" style="font-weight: bold; ">Sair</a>
+            <div class="btn-group col-lg-2">
+              <button
+                class="btn btn-danger btn-sm dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+              <i class="fa-solid fa-user"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li><router-link class="dropdown-item" to="/Accont">Minha Conta</router-link></li>
+                <li>
+                  <a
+                    href="/Login"
+                    class="link-danger"
+                    @click="logout"
+                    style="font-weight: bold"
+                    >Sair</a
+                  >
+                </li>
+              </ul>
+            </div>
           </template>
         </div>
       </div>
     </div>
-
   </nav>
 </template>
 
 <script>
-import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import Cookies from 'js-cookie';
+import { ref, watch } from "vue";
+import { useRouter } from "vue-router";
+import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
-import SlidePanel from "@/components/SlidePanel.vue"
+import SlidePanel from "@/components/SlidePanel.vue";
 
 export default {
-
-  name: 'Navbar',
+  name: "Navbar",
 
   components: {
-    SlidePanel
+    SlidePanel,
   },
 
-
   setup() {
-//     const isAdmin = ref(false);
+    //     const isAdmin = ref(false);
 
-    
-//       const authToken = Cookies.get("authToken");
-//       if (authToken) {
-//         const decodedToken = jwtDecode(authToken);
-//         const userIdFromToken = decodedToken.Id;
-//         userIdFromToken === "6942ed19-8dfe-4bb4-b17a-cdaedee00ac4"
-//       } 
-//       const toggleMenu1 = () => {
+    //       const authToken = Cookies.get("authToken");
+    //       if (authToken) {
+    //         const decodedToken = jwtDecode(authToken);
+    //         const userIdFromToken = decodedToken.Id;
+    //         userIdFromToken === "6942ed19-8dfe-4bb4-b17a-cdaedee00ac4"
+    //       }
+    //       const toggleMenu1 = () => {
 
-// if (jwtDecode(authToken)) { //PAREI AQUI
+    // if (jwtDecode(authToken)) { //PAREI AQUI
 
-//   isAdmin.value = true;
+    //   isAdmin.value = true;
 
-//    console.log("Authent")
+    //    console.log("Authent")
 
-// }
+    // }
 
-//}
+    // }
     //   const teste2 = setInterval(toggleMenu1, 250)
     // //console.log("Session")
     // watch(isAdmin, (newValue) => {
@@ -92,36 +119,30 @@ export default {
     //     // console.log("Interval stopped");
     //   }
     // });
-   
 
     const loggedIn = ref(false); // Supondo que o usuário não está logado inicialmente
-    
+
     const router = useRouter();
 
     // Verifica se o usuário está logado
     // console.log("teste"+loggedIn.value)
 
- 
     // Função para efetuar o logout
     const logout = () => {
       // Lógica para efetuar o logout (por exemplo, limpar o token e redirecionar)
-      Cookies.remove('authToken');
+      Cookies.remove("authToken");
       loggedIn.value = false;
-      router.push('/login'); // Redireciona para a página de login após o logout
+      router.push("/login"); // Redireciona para a página de login após o logout
     };
 
     const toggleMenu = () => {
-
-      if (Cookies.get('authToken')) {
-
+      if (Cookies.get("authToken")) {
         loggedIn.value = true;
 
         //  console.log("Authent")
-
       }
-
-    }
-    const teste = setInterval(toggleMenu, 250)
+    };
+    const teste = setInterval(toggleMenu, 250);
     //console.log("Session")
     watch(loggedIn, (newValue) => {
       if (newValue) {
@@ -130,19 +151,14 @@ export default {
       }
     });
 
-
-
     return {
       loggedIn,
       logout,
-      
+      //isAdmin,
     };
-
   },
 };
 </script>
-
-
 
 <style>
 .navbar {
@@ -155,7 +171,6 @@ export default {
   width: 100px;
   height: auto;
   margin-right: 10px;
-
 }
 
 #navbar-logo:hover {
@@ -174,12 +189,10 @@ export default {
 
 .dropdown-item {
   background: #262223;
-
-
 }
 
 .nav-item {
-  background: #F3F9FB;
+  background: #f3f9fb;
   border-radius: 18px;
   font-family: Poppins;
   font-size: 14px;

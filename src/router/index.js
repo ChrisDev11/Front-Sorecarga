@@ -44,6 +44,12 @@ const routes = [
     
   },
   {
+    path: "/Accont",
+    name: "Accont",
+    component: () => import("../components/Accont.vue"),
+    
+  },
+  {
     path: "/CadastroMarca",
     name: "CadastroMarca",
     component: () => import("../views/PainelAdm/CadastroMarca.vue"),

@@ -100,7 +100,7 @@ export default {
 
   data() {
     return {
-      endereco:"https://rechargeapi.azurewebsites.net/",
+      endereco:"https://rechargeapi.azurewebsites.net",
       step: 1,
       cart: [],
       payloadGenerated: null,
