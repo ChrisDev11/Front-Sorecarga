@@ -8,7 +8,7 @@
           <ul>
             <li v-for="item in cart" :key="item.id" class="cart-item">
               <div class="item-info">
-                <img :src="item.image" alt="Imagem do Produto" />
+                <img :src="item.imageUrl" alt="Imagem do Produto" />
                 {{ item.name }} - R$ {{ item.price * item.quantity }}
               </div>
               <div class="item-actions">
@@ -67,7 +67,9 @@ export default {
   },
   emits: ["update:visible", "update:cart"],
 
+  
   methods: {
+    
     closePanel() {
       this.$emit("update:visible", false);
     },
@@ -188,6 +190,11 @@ export default {
     }
   }
 
+  .product-image{
+    border-radius: 20%;
+  }
+ 
+
   .close-button {
     position: absolute;
     top: 10px;
@@ -215,37 +222,28 @@ export default {
     flex: 2;
     display: flex;
     align-items: center;
-
+  }
     img {
       max-width: 50px;
       max-height: 50px;
       margin-right: 10px;
     }
-  }
+ 
 
   .item-quantity {
     flex: 1;
     display: flex;
     align-items: center;
-
-    .quantity-button {
-      cursor: pointer;
-      font-size: 20px;
-      margin: 0 5px;
-      color: #fff;
-    }
+   
   }
+    
 
   .item-price {
     flex: 1;
     color: #fff;
   }
 
-  .clear-item-button {
-    cursor: pointer;
-    font-size: 20px;
-    color: #ff0000;
-  }
+  
 
   .clear-cart-button {
     margin-top: 20px;
@@ -278,5 +276,45 @@ export default {
     text-align: right;
     padding-right: 20px;
   }
+  /* Estilo para os botões - e + */
+.quantity-button {
+  font-size: 20px;
+  padding: 0 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.quantity-button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo específico para o botão - (minus-button) */
+.minus-button {
+  margin-right: 5px;
+}
+
+/* Estilo específico para o botão + (plus-button) */
+.plus-button {
+  margin-left: 5px;
+}
+
+/* Estilo para o botão X */
+.clear-item-button {
+  font-size: 20px;
+  color: #ff0000;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-right: 2px;
+}
+
+.clear-item-button:hover {
+  color: #b30000;
+  
+}
+
 }
 </style>

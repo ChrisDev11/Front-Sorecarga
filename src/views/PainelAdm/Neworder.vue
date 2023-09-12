@@ -54,6 +54,7 @@ export default {
   },
   data() {
     return {
+      endereco:"https://rechargeapi.azurewebsites.net/",
       purchases: [],
     };
   },
@@ -63,12 +64,12 @@ export default {
   methods: {
     async fetchPurchaseData() {
       try {
-        const response = await axios.get('https://localhost:3000/Purchase');
+        const response = await axios.get(`${this.endereco}/Purchase`);
         const purchases = response.data;
 
         // Criar uma lista de promessas para buscar os detalhes do usuário
         const userDetailPromises = purchases.map((purchase) => {
-          return axios.get(`https://localhost:3000/Users/${purchase.userId}`)
+          return axios.get(`${this.endereco}/Users/${purchase.userId}`)
             .then((userResponse) => {
               // Adicionar o nome do usuário à compra
               purchase.userName = userResponse.data.name;

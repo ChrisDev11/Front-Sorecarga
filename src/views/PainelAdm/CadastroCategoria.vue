@@ -76,14 +76,18 @@ export default {
   },
   data: () => {
     return {
+      endereco:"https://rechargeapi.azurewebsites.net/",
       Category: [],
       Categorys: undefined,
       category: "",
     };
   },
+  
   methods: {
+    
     lista() {
-      axios.get("https://localhost:3000/Category").then((res) => {
+      
+      axios.get(`${this.endereco}/Category`).then((res) => {
         this.Category = res.data;
         
       });
@@ -93,8 +97,9 @@ export default {
         this.alterar();
         return;
       }
+      
       axios
-        .post("https://localhost:3000/Category", {
+        .post(`${this.endereco}/Category`, {
           name: document.getElementById("name").value,
         })
         .then(() => {
@@ -113,7 +118,7 @@ export default {
         
       axios
         .put(
-          `https://localhost:3000/Category/${this.Categorys.id}`,
+          `${this.endereco}/${this.Categorys.id}`,
           this.Categorys
           
         )
@@ -128,7 +133,7 @@ export default {
       console.log(this.id)
       if (confirm("🚫Deseja realmente excluir a Categoria?🚫")) {
         
-        axios.delete(`https://localhost:3000/Category/${id}`).then(() => {
+        axios.delete(`${this.endereco}/Category/${id}`).then(() => {
           this.lista();
         });
       }

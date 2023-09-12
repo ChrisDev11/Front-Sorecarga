@@ -68,13 +68,14 @@ export default {
   
   data: () => {
     return {
+      endereco:"https://rechargeapi.azurewebsites.net/",
       Brands: [],
       
     }
   },
   methods: {
     lista() {
-      axios.get("https://localhost:3000/Brand").then((res) => {
+      axios.get(`${this.endereco}/Brand`).then((res) => {
         this.Brands = res.data;
         console.log(this.Brands);
         
@@ -86,7 +87,7 @@ export default {
         return;
       }
       axios
-        .post("https://localhost:3000/Brand", {
+        .post(`${this.endereco}/Brand`, {
           name: document.getElementById("name").value,
         })
         .then(() => {
@@ -104,7 +105,7 @@ export default {
       this.Brand.name = document.getElementById("name").value;
       console.log(this.Brand.id)
       axios
-        .put(`https://localhost:3000/Brand/${this.Brand.id}`, this.Brand)
+        .put(`${this.endereco}/Brand/${this.Brand.id}`, this.Brand)
         .then(() => {
           this.lista();
           
@@ -117,7 +118,7 @@ export default {
       console.log(this.id)
       if (confirm("🚫Deseja realmente excluir a Marca?🚫")) {
         
-        axios.delete(`https://localhost:3000/Brand/${id}`).then(() => {
+        axios.delete(`${this.endereco}/Brand/${id}`).then(() => {
           this.lista();
         });
       }

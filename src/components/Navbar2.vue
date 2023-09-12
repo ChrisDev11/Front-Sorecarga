@@ -53,3 +53,54 @@ export default {
     name: 'Navbar2',
 }
 </script>
+
+<style>
+.navbar {
+  background-color: #333;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  height: 60px;
+}
+#navbar-logo{
+  width: 100px;
+  height: auto;
+  margin-right: 10px;
+  
+}
+#navbar-logo:hover{
+  transition: all 0.3s ease;
+  color: #ffffff;
+  padding-left:8px;
+}
+
+.dropdown-toggle {
+  color: #fff;
+}
+
+.nav-link.disabled {
+  color: #6c757d;
+}
+
+.dropdown-item{
+  background: #262223;
+
+
+}
+.nav-item{
+  background: #F3F9FB;
+  border-radius: 18px;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: right;
+  margin-right: 30px;
+  display: flex;
+}
+
+
+
+
+
+</style>

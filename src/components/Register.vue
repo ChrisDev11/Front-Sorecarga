@@ -15,7 +15,7 @@
 
       <div class="mb-3">
         <label for="password" class="form-label">Senha:</label>
-        <input v-model="user.Password" type="password" class="form-control" id="password" ref="Password" required>
+        <input v-model="user.hashPassword" type="password" class="form-control" id="hashPassword" ref="Password" required>
       </div>
 
       <div class="mb-3">
@@ -37,11 +37,12 @@ export default {
   name: "Register",
   data() {
     return {
-      user: {
+        endereco:"https://rechargeapi.azurewebsites.net/",
+        user: {
         Name: '',
         Email: '',
-        Password: '',
-        ConfirmPassword: '',
+        hashPassword: '',
+        
       },
     };
   },
@@ -52,7 +53,7 @@ export default {
       }
 
       try {
-        await axios.post('https://localhost:3000/Users/Register', this.user, {
+        await axios.post(`${this.endereco}/Users/register`, this.user, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -76,12 +77,12 @@ export default {
         return false;
       }
       
-      if (!this.user.Password) {
-        this.$refs.Password.focus();
+      if (!this.user.hashPassword) {
+        this.$refs.hashPassword.focus();
         Swal.fire("Give Password !");
         return false;
       }
-      if (this.user.Password !== this.user.ConfirmPassword) {
+      if (this.user.hashPassword !== this.user.ConfirmPassword) {
         this.$refs.psw.focus();
         Swal.fire("Password and repeat password mismatched !");
         return false;

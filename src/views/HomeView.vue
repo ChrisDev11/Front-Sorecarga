@@ -4,8 +4,12 @@
       <!-- Conteúdo do banner -->
       <h1>Bem-vindo à nossa loja!</h1>
       <p>Encontre os melhores produtos aqui.</p>
-      <button class="btn btn-primary" @click="changeCartVisibility()">Exibir Carrinho</button>
-
+      <button 
+      class="btn btn-success" @click="changeCartVisibility()">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span class="badge text-bg-success">{{ cart.length }}</span>
+      </button>
+      
       <SlidePanel
         title = "Cart"
         :visible="cartVisible"
@@ -16,16 +20,11 @@
     </div>
 
     <div class="container">
-  <h2>Nossas Marcas</h2>
-  <div class="brand-list">
-    <div v-for="brand in brands" :key="brand.id" class="brand-card">
-      <h3>{{ brand.name }}</h3>
-    </div>
-  </div>
 </div>
 
     <div class="container">
       <h2>Nossos Produtos</h2>
+      
       <div class="product-list">
         <!-- Loop para exibir a lista de produtos -->
         <div
@@ -34,10 +33,11 @@
           :to="`/product/${product.id}`"
           class="product-card"
         >
-          <img :src="product.image" :alt="product.name" class="product-image" />
+          <img :src="product.imageUrl" :alt="product.name" class="product-image" />
+          
           <h3>{{ product.name }}</h3>
           <p class="product-description">{{ product.description }}</p>
-          <p>R$ {{ product.price }}</p>
+          <p class="product-price">R$ {{ product.price }}</p>
           <div class="product-buttons">
             <button @click.stop="buyProduct(product)" 
             class="buy-button">
@@ -69,6 +69,7 @@ export default {
   },
   data() {
     return {
+      endereco:"https://rechargeapi.azurewebsites.net/",
       products: [],
       cart: [],
     };
@@ -118,7 +119,7 @@ export default {
 
     fetchProducts() {
       axios
-        .get("https://localhost:3000/Product")
+        .get(`${this.endereco}/Product`)
         .then((response) => {
           this.products = response.data;
         })
@@ -128,7 +129,7 @@ export default {
     },
     fetchBrands() {
     axios
-      .get("https://localhost:3000/Brand") // Rota para buscar marcas
+      .get(`${this.endereco}/Brand`) // Rota para buscar marcas
       .then((response) => {
         this.brands = response.data;
       })
@@ -149,7 +150,8 @@ export default {
 }
 
 .container {
-  margin-top: 20px;
+  margin-top:20px;
+  
 }
 
 .product-card {
@@ -162,6 +164,7 @@ export default {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
   background-color: #fff;
+  
 }
 
 .product-card:hover {
@@ -184,7 +187,7 @@ export default {
 
 /* Estilo para a descrição do produto */
 .product-description {
-  font-size: 14px;
+  font-size: 16px;
   color: #555;
   margin-top: 8px;
   text-align: center;
@@ -194,7 +197,7 @@ export default {
 .product-price {
   font-size: 16px;
   font-weight: bold;
-  color: #e67e22;
+  color: #090a09;
   margin-top: 10px;
   text-align: center;
 }

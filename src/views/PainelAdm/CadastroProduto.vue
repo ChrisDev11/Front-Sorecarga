@@ -64,6 +64,19 @@
               aria-label="Código de Barras"
             />
           </div>
+
+          <div class="col-md-2">
+            <label class="form-label">URL imagem</label>
+            <input
+              type="text"
+              class="form-control"
+              id="imageUrl"
+              name="imageUrl"
+              placeholder="URL imagem"
+              aria-label="URL imagem"
+            />
+          </div>
+
           <!-- Recente Dropdowns -->
           <div class="col-md-2">
             <label class="form-label">Categoria</label>
@@ -177,6 +190,7 @@
 import SideBarDash from "@/components/SideBarDash.vue";
 import axios from "axios";
 
+
 export default {
   name: "CadastroProduto",
   components: {
@@ -189,6 +203,7 @@ export default {
 
   data: () => {
     return {
+      endereco:"https://rechargeapi.azurewebsites.net/",
       Product: [],
       Products: undefined,
       Product: "",
@@ -212,9 +227,9 @@ export default {
     async fetchCategoriesAndBrands() {
       try {
         const categoryResponse = await axios.get(
-          "https://localhost:3000/Category"
+         `${this.endereco}/Category`
         );
-        const brandResponse = await axios.get("https://localhost:3000/Brand");
+        const brandResponse = await axios.get(`${this.endereco}/Brand`);
 
         this.Category = categoryResponse.data;
         this.Brand = brandResponse.data;
@@ -224,7 +239,7 @@ export default {
     },
     //Lista os Produtos na tela
     lista() {
-      axios.get("https://localhost:3000/Product").then((res) => {
+      axios.get(`${this.endereco}/Product`).then((res) => {
         this.Product = res.data;
         // console.log(res);
       });
@@ -241,8 +256,9 @@ export default {
 
       console.log("categoryId:", categoryId); // Verifica categoryId no console
       console.log("brandId:", brandId); // Verifica brandId no console
+      
       axios
-        .post("https://localhost:3000/Product", {
+        .post(`${this.endereco}/Product`, {
           sku: document.getElementById("sku").value,
           name: document.getElementById("name").value,
           brandId: brandId, // Envie o CategoryId
@@ -250,6 +266,7 @@ export default {
           description: document.getElementById("description").value,
           price: document.getElementById("price").value,
           barCode: document.getElementById("barCode").value,
+          imageUrl: document.getElementById("imageUrl").value,
           amount: document.getElementById("amount").value,
         })
         .then(() => {
@@ -265,6 +282,7 @@ export default {
       document.getElementById("description").value = Products.description;
       document.getElementById("price").value = Products.price;
       document.getElementById("barCode").value = Products.barCode;
+      document.getElementById("imageUrl").value = Products.imageUrl;
       document.getElementById("amount").value = Products.amount;
 
       // Defina os valores dos menus dropdown (categorias e marcas)
@@ -282,11 +300,12 @@ export default {
       this.Products.description = document.getElementById("description").value;
       this.Products.price = document.getElementById("price").value;
       this.Products.barCode = document.getElementById("barCode").value;
+      this.Products.imageUrl = document.getElementById("imageUrl").value;
       this.Products.amount = document.getElementById("amount").value;
 
       axios
         .put(
-          `https://localhost:3000/Product/${this.Products.id}`,
+          `${this.endereco}/Product/${this.Products.id}`,
           this.Products
         )
         .then(() => {
@@ -299,13 +318,14 @@ export default {
           document.getElementById("description").value = "";
           document.getElementById("price").value = "";
           document.getElementById("barcode").value = "";
+          documente.getElementById("imageUrl").value = "",
           document.getElementById("amount").value = "";
         });
     },
     //Metodo EXCLUIR
     excluir(id) {
       if (confirm("🚫Deseja realmente excluir o Produto?🚫")) {
-        axios.delete(`https://localhost:3000/Product/${id}`).then(() => {
+        axios.delete(`${this.endereco}/Product/${id}`).then(() => {
           this.lista();
         });
       }
@@ -318,7 +338,7 @@ export default {
     // TROCA DE ID FOR NAME
     // Fazer uma chamada para buscar todos os produtos
     axios
-      .get("https://localhost:3000/Product")
+      .get(`${this.endereco}/Product`)
       .then((response) => {
         this.products = response.data;
       })
@@ -328,7 +348,7 @@ export default {
 
     // Fazer chamadas para buscar os nomes das marcas e categorias e armazená-los em brandNames e categoryNames
     axios
-      .get("https://localhost:3000/Brand")
+      .get(`${this.endereco}/Brand`)
       .then((response) => {
         response.data.forEach((brand) => {
           this.brandNames[brand.id] = brand.name;
@@ -339,7 +359,7 @@ export default {
       });
 
     axios
-      .get("https://localhost:3000/Category")
+      .get(`${this.endereco}/Category`)
       .then((response) => {
         response.data.forEach((category) => {
           this.categoryNames[category.id] = category.name;

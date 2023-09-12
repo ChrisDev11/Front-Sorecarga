@@ -10,7 +10,7 @@
 
       <div class="mb-3">
         <label for="password" class="form-label">Senha:</label>
-        <input v-model="credentials.password" type="password" class="form-control" id="password" required>
+        <input v-model="credentials.hashPassword" type="password" class="form-control" id="hashPassword" required>
       </div>
 
       <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
@@ -31,9 +31,10 @@ export default {
   name: "Login",
   data() {
     return {
+      endereco:"https://rechargeapi.azurewebsites.net/",
       credentials: {
         email: '',
-        password: '',
+        hashPassword: '',
       },
     };
   },
@@ -46,7 +47,7 @@ export default {
       }
 
       try {
-        const response = await axios.post('https://localhost:3000/Users/Login', this.credentials, {
+        const response = await axios.post(`${this.endereco}/Users/Login`, this.credentials, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -72,7 +73,7 @@ export default {
         return false;
       }
       
-      if (!this.credentials.password) {
+      if (!this.credentials.hashPassword) {
         Swal.fire("Please enter your password.");
         return false;
       }

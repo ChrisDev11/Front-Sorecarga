@@ -17,9 +17,9 @@
         <tbody>
           <tr v-for="(item, index) in cart" :key="index">
             <td>{{ item.name }}</td>
-            <td>R$:{{ item.price.toFixed(2) }}</td>
+            <td>R$ {{ item.price.toFixed(2) }}</td>
             <td>{{ item.quantity }}</td>
-            <td>R$:{{ item.quantity * item.price }}</td>
+            <td>R$ {{ item.quantity * item.price }}</td>
             <td>
               <button @click="decrementQuantity(item)">-</button>
               <button @click="incrementQuantity(item)">+</button>
@@ -100,6 +100,7 @@ export default {
 
   data() {
     return {
+      endereco:"https://rechargeapi.azurewebsites.net/",
       step: 1,
       cart: [],
       payloadGenerated: null,
@@ -160,7 +161,7 @@ export default {
           console.log("Token decodificado:", decodedToken);
           // Faça uma solicitação Axios para buscar os dados do usuário
           axios
-            .get(`https://localhost:3000/Users/${userId}`)
+            .get(`${this.endereco}/Users/${userId}`)
             .then((response) => {
               // Preencha os dados do usuário no formulário com base na resposta
               this.cliente = response.data;
@@ -239,7 +240,7 @@ if (cartBuyDataEncoded) {
       
 
       // Faça a solicitação POST com os dados combinados do carrinho
-      axios.post('https://localhost:3000/Cart', individualItems, {
+      axios.post(`${this.endereco}/Cart`, individualItems, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -271,7 +272,7 @@ if (cartBuyDataEncoded) {
   this.payloadGenerated = payload;
 
   // Em seguida, faça a solicitação PUT para salvar os dados do cliente no banco de dados
-  axios.put(`https://localhost:3000/Users/${this.jwtDecoded.Id}`, this.cliente)
+  axios.put(`${this.endereco}/Users/${this.jwtDecoded.Id}`, this.cliente)
     .then(response => {
       // A solicitação foi bem-sucedida, você pode lidar com a resposta (opcional)
       console.log('Dados do cliente salvos com sucesso:', response.data);
@@ -387,7 +388,7 @@ if (cartBuyDataEncoded) {
 
     // Faça uma solicitação POST para criar a compra
     const response = await axios.post(
-      "https://localhost:3000/Purchase",
+      `${this.endereco}/Purchase`,
       purchaseData,
       {
         headers: {
@@ -544,6 +545,7 @@ select {
 }
 .green-text {
   color: #4caf50;
+  font-size: 18px;
 }
 
 /* Etapas ocultas */
